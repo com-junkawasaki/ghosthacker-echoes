@@ -1,0 +1,68 @@
+(ns ghosthacker-echoes.terminal
+  "GHOST HACKER: ECHOES — minimal terminal host adapter (playable prototype).
+
+  Unlike ghosthacker-flow/ghosthacker-harmony's terminal prototypes, ECHOES
+  has no real-time beat to track — this is a plain numbered-choice REPL
+  loop over `ghosthacker-echoes.story/reach-out`, no `future`/agent thread
+  pool involved (so no `shutdown-agents` hang risk either).
+
+  Run: clojure -M -m ghosthacker-echoes.terminal"
+  (:require [clojure.string :as str]
+            [ghosthacker-echoes.core :as core]
+            [ghosthacker-echoes.story :as story]))
+
+(defn- print-node! [dialogue node-id]
+  (let [{:keys [speaker text]} (core/node dialogue node-id)]
+    (println (format "[%s] %s" (name speaker) text))))
+
+(defn- print-choices! [choices]
+  (doseq [[i {:keys [label]}] (map-indexed vector choices)]
+    (println (format "  %d) %s" (inc i) (name label)))))
+
+(defn- parse-choice
+  "1始まりの数字文字列を[1, n-choices]の範囲でパースし、有効なら0始まりの
+   indexを、無効(数字以外/範囲外)ならnilを返す。"
+  [line n-choices]
+  (let [n (try (Integer/parseInt (str/trim line)) (catch NumberFormatException _ nil))]
+    (when (and n (<= 1 n n-choices))
+      (dec n))))
+
+(defn- read-valid-choice!
+  "有効な1..n-choicesの数字が入力されるまで読み直し、0始まりのindexを
+   返す。標準入力がEOFになったらnilを返す(呼び出し側がそこで打ち切る)。"
+  [n-choices]
+  (print "> ") (flush)
+  (when-let [line (read-line)]
+    (if-let [idx (parse-choice line n-choices)]
+      idx
+      (do (println (format "1〜%dの番号で選んでください。" n-choices))
+          (recur n-choices)))))
+
+(defn- play-loop!
+  "終端ノードに着くまで、現在ノード+選択肢を表示 → 有効な入力を1つ得る →
+   chooseを適用、を繰り返す。標準入力がEOFになったら、そこまでのstateで
+   打ち切る。"
+  [dialogue start-node]
+  (loop [state (assoc core/initial-state :node start-node)]
+    (print-node! dialogue (:node state))
+    (if (core/terminal? dialogue (:node state))
+      state
+      (let [choices (core/choices-at dialogue state)]
+        (print-choices! choices)
+        (if-let [idx (read-valid-choice! (count choices))]
+          (recur (core/choose dialogue state idx))
+          state)))))
+
+(defn -main
+  "Entry point for `clojure -M -m ghosthacker-echoes.terminal`."
+  [& _args]
+  (println "GHOST HACKER: ECHOES — reach-out")
+  (println)
+  (let [state (play-loop! story/reach-out :start)
+        result (core/summary story/reach-out state)]
+    (println)
+    (println "=== RESULT ===")
+    (println (format "ending=%s connection=%.2f history=%s"
+                      (if-let [e (:ending result)] (name e) "(未完走)")
+                      (double (:connection result))
+                      (:history result)))))
