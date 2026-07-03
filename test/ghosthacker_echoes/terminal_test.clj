@@ -16,7 +16,7 @@
   (binding [*out* (java.io.StringWriter.)]
     (thunk)))
 
-(deftest parse-choice-test
+(deftest parse-choice-invalid-input-test
   (testing "範囲内の数字は0始まりindexを返す"
     (is (= 0 (parse-choice "1" 3)))
     (is (= 2 (parse-choice "3" 3))))
@@ -27,7 +27,7 @@
   (testing "前後の空白は無視する"
     (is (= 0 (parse-choice "  1  " 3)))))
 
-(deftest read-valid-choice-test
+(deftest read-valid-choice-invalid-input-boundary-test
   (testing "有効な入力を最初の行で読めば即座にそのindexを返す"
     (let [idx (silently #(with-in-str "2\n" (read-valid-choice! 3)))]
       (is (= 1 idx))))
@@ -37,7 +37,7 @@
   (testing "EOFに達したらnilを返す(ハングしない)"
     (is (nil? (silently #(with-in-str "" (read-valid-choice! 3)))))))
 
-(deftest play-loop-test
+(deftest play-loop-eof-boundary-test
   (testing "有効な選択列を最後まで入力すれば終端nodeに着く"
     (let [state (silently #(with-in-str "1\n1\n1\n" (play-loop! story/reach-out :start)))]
       (is (core/terminal? story/reach-out (:node state)))

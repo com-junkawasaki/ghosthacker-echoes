@@ -20,7 +20,7 @@
   (is (false? (core/terminal? sample-dialogue :start)))
   (is (true? (core/terminal? sample-dialogue :end))))
 
-(deftest choose-test
+(deftest choose-clamp-boundary-test
   (testing "resonanceがconnectionに足され、nodeが進み、historyに積まれる"
     (let [state (assoc core/initial-state :node :start)
           next-state (core/choose sample-dialogue state 0)]
