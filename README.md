@@ -44,7 +44,14 @@ Ghost Hacker ゲームポートフォリオ第3弾。設計は
 ハングリスクも無い）。不正な入力は再入力を促し、EOFなら未完走のまま
 そこまでの結果を表示する。
 
-本格的なレンダリング/入力ホストアダプタは依然として別レイヤーの課題。
+**ブラウザで遊べるホストアダプタ**が `src/ghosthacker_echoes/web.cljs`
+（reagent、`.cljc`コアはそのまま呼ぶだけ）。ADR-2607100900 follow-up (b):
+ゲームポートフォリオの新規hostはADR-2607100100の順序（kotoba wasm →
+clojurewasm → ClojureScript → nbb）に従うが、ECHOESはリアルタイム判定・
+音声・低遅延入力を必要としないため、host-import制約
+（ADR-2607100030 addendum 2）に関係なく素直にClojureScriptで実装できる
+（FLOW/HARMONYは音声/タイミングhost-importが要るため同じ制約に該当する
+見込み — 別途）。
 
 ## 開発
 
@@ -58,10 +65,18 @@ Lint（clj-kondo、Clojars経由でHomebrew等の別インストール不要）:
 clojure -M:lint
 ```
 
-遊んでみる:
+ターミナルで遊んでみる:
 
 ```bash
 clojure -M -m ghosthacker-echoes.terminal
+```
+
+ブラウザで遊んでみる（`npm install`は初回のみ）:
+
+```bash
+npm install
+npx shadow-cljs watch app   # http://localhost:8290 で自動リロード開発
+npx shadow-cljs release app # public/ に静的バンドルをビルド(デプロイ可能)
 ```
 
 変更履歴は [CHANGELOG.md](CHANGELOG.md)。

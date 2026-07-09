@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>GHOST HACKER: ECHOES</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0f1115;
+      color: #e8e8ec;
+      font-family: -apple-system, "Hiragino Sans", sans-serif;
+    }
+    .echoes-app {
+      width: min(560px, 90vw);
+      padding: 2rem;
+      border: 1px solid #2a2d36;
+      border-radius: 12px;
+      background: #161922;
+    }
+    .echoes-app h1 { font-size: 1.1rem; margin: 0 0 0.25rem; letter-spacing: 0.04em; }
+    .echoes-sub { margin: 0 0 1.5rem; color: #7a7f8f; font-size: 0.85rem; }
+    .echoes-line { font-size: 1.05rem; line-height: 1.7; margin-bottom: 1.5rem; }
+    .echoes-choices, .echoes-result { display: flex; flex-direction: column; gap: 0.6rem; }
+    .echoes-choices button, .echoes-result button {
+      padding: 0.7rem 1rem;
+      border-radius: 8px;
+      border: 1px solid #3a3f4d;
+      background: #1e2230;
+      color: inherit;
+      font-size: 0.95rem;
+      text-align: left;
+      cursor: pointer;
+    }
+    .echoes-choices button:hover, .echoes-result button:hover { background: #2a3040; }
+    .echoes-result h2 { font-size: 1rem; margin: 0 0 0.3rem; }
+    .echoes-history { color: #9096a8; font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+  <script src="main.js"></script>
+</body>
+</html>
