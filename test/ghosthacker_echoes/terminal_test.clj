@@ -13,8 +13,11 @@
 (def ^:private play-loop! #'terminal/play-loop!)
 
 (defn- silently [thunk]
-  (binding [*out* (java.io.StringWriter.)]
-    (thunk)))
+  ;; swallow stdout while still returning thunk's value; with-out-str is
+  ;; portable (JVM + ClojureScript), so no java.io.StringWriter import.
+  (let [ret (promise)]
+    (with-out-str (deliver ret (thunk)))
+    @ret))
 
 (deftest parse-choice-invalid-input-test
   (testing "範囲内の数字は0始まりindexを返す"
