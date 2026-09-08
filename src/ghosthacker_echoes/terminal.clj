@@ -7,7 +7,7 @@
   pool involved (so no `shutdown-agents` hang risk either).
 
   Run: clojure -M -m ghosthacker-echoes.terminal"
-  (:require [clojure.string :as str]
+  (:require [kotoba.lang.text :as str]
             [ghosthacker-echoes.core :as core]
             [ghosthacker-echoes.story :as story]))
 
