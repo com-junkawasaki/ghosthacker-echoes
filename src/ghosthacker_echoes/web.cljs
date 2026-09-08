@@ -11,7 +11,7 @@
   Same input/output shape as ghosthacker-echoes.terminal (a click maps to
   the same 0-based choice index `terminal/parse-choice` derives from
   stdin), rendering to the DOM instead of stdout."
-  (:require [clojure.string :as str]
+  (:require [kotoba.lang.text :as str]
             [reagent.core :as r]
             [reagent.dom :as rdom]
             [ghosthacker-echoes.core :as core]
