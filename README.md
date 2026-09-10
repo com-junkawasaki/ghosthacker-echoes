@@ -24,7 +24,7 @@ Ghost Hacker ゲームポートフォリオ第3弾。設計は
 
 ## 実装範囲
 
-`src/ghosthacker_echoes/core.cljc` — pure、host-free。dialogueグラフ
+`src/ghosthacker_echoes/core.kotoba` — pure、host-free。dialogueグラフ
 （`{node-id {:speaker :text :choices [{:label :resonance :next} ...]}}`、
 選択肢が空/無いノードが終端）を駆動する:
 
@@ -34,17 +34,17 @@ Ghost Hacker ゲームポートフォリオ第3弾。設計は
   （`:healed` >= 0.75、`:fragile` >= 0.4、それ以外は`:broken`）
 - `play`/`play-summary` — 選択列をまとめて適用し、リザルトを返す統合API
 
-`src/ghosthacker_echoes/story.cljc` — サンプルの完結した会話
+`src/ghosthacker_echoes/story.kotoba` — サンプルの完結した会話
 （`reach-out`）。3手で終端に着き、3つの結末全てに到達可能な数値に
 調整済み（テストで検証）。
 
-**プレイ可能な最小プロトタイプ**として `src/ghosthacker_echoes/terminal.clj`
+**プレイ可能な最小プロトタイプ**として `src/ghosthacker_echoes/terminal.kotoba`
 がある。FLOW/HARMONYと違い実時間のビート判定が無いため、`future`/agent
 スレッドプールを一切使わない素朴な番号選択REPLループ（`shutdown-agents`の
 ハングリスクも無い）。不正な入力は再入力を促し、EOFなら未完走のまま
 そこまでの結果を表示する。
 
-**ブラウザで遊べるホストアダプタ**が `src/ghosthacker_echoes/web.cljs`
+**ブラウザで遊べるホストアダプタ**が `src/ghosthacker_echoes/web.kotoba`
 （reagent、`.cljc`コアはそのまま呼ぶだけ）。ADR-2607100900 follow-up (b):
 ゲームポートフォリオの新規hostはADR-2607100100の順序（kotoba wasm →
 clojurewasm → ClojureScript → nbb）に従うが、ECHOESはリアルタイム判定・
