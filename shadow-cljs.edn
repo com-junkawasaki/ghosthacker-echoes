@@ -1,8 +1,8 @@
 ;; shadow-cljs build for the ECHOES browser host adapter (ADR-2607100900
 ;; follow-up (b) -- ClojureScript over reagent, no host-imports needed).
 ;; output-dir == the dev-http root, so index.html + compiled main.js live
-;; together in public/ -- `npx shadow-cljs watch app` for local play,
-;; `npx shadow-cljs release app` for the deployable static bundle
+;; together in public/ -- `amu compile --target wasm32-browser app` for local play,
+;; `amu compile --target wasm32-browser app` for the deployable static bundle
 ;; (public/ as a whole is the artifact, same as kami-mangaka-reader's dist/).
 {:deps   {:aliases [:cljs]}
  :builds {:app {:target     :browser
