@@ -6,7 +6,7 @@
   loop over `ghosthacker-echoes.story/reach-out`, no `future`/agent thread
   pool involved (so no `shutdown-agents` hang risk either).
 
-  Run: clojure -M -m ghosthacker-echoes.terminal"
+  Run: kbb -M -m ghosthacker-echoes.terminal"
   (:require [kotoba.lang.text :as str]
             [ghosthacker-echoes.core :as core]
             [ghosthacker-echoes.story :as story]))
@@ -54,7 +54,7 @@
           state)))))
 
 (defn -main
-  "Entry point for `clojure -M -m ghosthacker-echoes.terminal`."
+  "Entry point for `kbb -M -m ghosthacker-echoes.terminal`."
   [& _args]
   (println "GHOST HACKER: ECHOES — reach-out")
   (println)
